@@ -5,14 +5,14 @@ services:
     build:
       context: ""
       dockerfile: Dockerfile
-    container_name: php-proj-app
+    container_name: php-mvcproj-app
     restart: always
     working_dir: /var/www/
     volumes:
       - ../src:/var/www
   nginx:
     image: nginx:1.19-alpine
-    container_name: php-proj-nginx
+    container_name: php-mvcproj-nginx
     restart: always
     ports:
       - "8000:80"
@@ -20,7 +20,7 @@ services:
       - ../src:/var/www
       - ./nginx:/etc/nginx/conf.d
   db:
-    container_name: php-proj-db
+    container_name: php-mvcproj-db
     image: mysql:8.0
     volumes:
       - ./storage/mysql:/var/lib/mysql
@@ -30,7 +30,7 @@ services:
     ports:
       - "3306:3306"
   mailhog:
-    container_name: php-proj-mailhog
+    container_name: php-mvcproj-mailhog
     image: mailhog/mailhog
     restart: always
     logging:
@@ -39,7 +39,7 @@ services:
       - "8025:8025"
       - "1025:1025"
   cron:
-    container_name: php-proj-cron
+    container_name: php-mvcproj-cron
     build: ./cron
     volumes:
       - ../src:/var/www
