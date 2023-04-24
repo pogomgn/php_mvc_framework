@@ -41,7 +41,7 @@ class Router
             throw new RouteNotFoundException();
         }
 
-        echo call_user_func($callback);
+        return call_user_func($callback);
     }
 
     public function getRoutes(): array

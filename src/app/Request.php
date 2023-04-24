@@ -15,7 +15,7 @@ final class Request
         $this->method = strtolower($_SERVER['REQUEST_METHOD']);
         $uri = $_SERVER['REQUEST_URI'] ?? '/';
 
-        [$path, $params] = @explode('?', $uri);
+        [$path, $params] = explode('?', $uri);
 
         $this->path = $path;
         $this->params = explode('&', $params ?: '');
