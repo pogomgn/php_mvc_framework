@@ -2,7 +2,7 @@
 
 namespace App;
 
-final class Request
+class Request
 {
     protected string $path = '';
     protected array $params = [];

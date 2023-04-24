@@ -9,19 +9,14 @@ use App\Exception\UnexpectedBehaviorException;
 
 class Router
 {
-    protected Request $request;
-
     protected array $routes = [
         'get' => [],
         'post' => [],
     ];
 
-
-    public function __construct()
+    public function __construct(protected Request $request)
     {
-        $this->request = Request::getInstance();
     }
-
 
     public function get(string $path, callable|array $action)
     {
