@@ -1,15 +1,25 @@
 <?php
 
+use App\Application;
 use App\Controllers\Foo;
+use App\Request;
+use App\Router;
+
+error_reporting(E_ERROR | E_PARSE);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 
-$foo = new Foo();
-echo $foo->bar();
-echo '<pre>'; var_export($_ENV); echo '</pre>';
+$router = new Router();
+$router->get('/', function() {
+    return 'Hello!';
+});
+$router->get('/user', function() {
+    return 'pff user';
+});
 
-//throw new \Exception('asd');
-//phpinfo();
+$app = new Application($router, Request::getInstance());
+
+$app->run();
