@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Controllers\Foo;
 use App\Exception\ClassNotFoundException;
 use App\Exception\RouteNotFoundException;
 use App\Request;
