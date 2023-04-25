@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Exception\ClassNotFoundException;
 use App\Exception\RouteNotFoundException;
+use App\Render;
 use App\Request;
 use App\Router;
 use PHPUnit\Framework\TestCase;
@@ -15,13 +16,13 @@ class RouterTest extends TestCase
     {
         $this->expectException(RouteNotFoundException::class);
         $this->expectExceptionCode(404);
-        $router = new Router(Request::getInstance());
+        $router = new Router(Request::getInstance(), new Render());
         $router->resolve();
     }
 
     public function test_routes_array()
     {
-        $router = new Router(Request::getInstance());
+        $router = new Router(Request::getInstance(), new Render());
         $router->get('/getpath', function () {
             return 'test';
         });
@@ -42,9 +43,28 @@ class RouterTest extends TestCase
 
         $this->expectException(ClassNotFoundException::class);
         $this->expectExceptionCode(500);
-        $router = new Router($requestMock);
+        $router = new Router($requestMock, new Render());
 
         $router->get('/', ['\App\Controllers\Foo', 'render']);
+        $router->resolve();
+    }
+
+    public function test_include_path_called_when_view_resolved()
+    {
+        $requestMock = $this->createMock(Request::class);
+        $requestMock->method('getPath')->willReturn('/');
+        $requestMock->method('getMethod')->willReturn('get');
+
+        $renderMock = $this->createMock(Render::class);
+
+        $router = new Router($requestMock, $renderMock);
+
+        $renderMock
+            ->expects($this->once())
+            ->method('renderView')
+            ->with('home');
+
+        $router->get('/', 'home');
         $router->resolve();
     }
 }

@@ -6,6 +6,7 @@ use App\Exception\ClassNotFoundException;
 use App\Exception\MethodNotFoundException;
 use App\Exception\RouteNotFoundException;
 use App\Exception\UnexpectedBehaviorException;
+use App\Exception\ViewNotFoundException;
 
 class Router
 {
@@ -14,11 +15,14 @@ class Router
         'post' => [],
     ];
 
-    public function __construct(protected Request $request)
+    public function __construct(
+        protected Request $request,
+        protected Render $render
+    )
     {
     }
 
-    public function get(string $path, callable|array $action)
+    public function get(string $path, callable|array|string $action)
     {
         $this->routes['get'][$path] = $action;
     }
@@ -41,6 +45,11 @@ class Router
 
         if (is_callable($action)) {
             return call_user_func($action);
+        }
+
+        if (is_string($action)) {
+            $this->render->renderView($action);
+            return;
         }
 
         if (is_array($action)) {
