@@ -7,9 +7,12 @@ use App\Router;
 
 error_reporting(E_ERROR | E_PARSE);
 
-require_once __DIR__ . '/../vendor/autoload.php';
+define('ROOT_DIR', dirname(__DIR__));
+define('APP_DIR', dirname(__DIR__) . '/app');
 
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+require_once ROOT_DIR . '/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(ROOT_DIR);
 $dotenv->load();
 
 $router = new Router(Request::getInstance(), new Render());
