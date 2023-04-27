@@ -6,12 +6,23 @@ use App\Exception\ViewNotFoundException;
 
 class Render
 {
-    public function renderLayout(string $layout, array $params)
+    public function renderLayout(string $layout, string $content = '', array $placeholders = [])
     {
         ob_start();
         include_once $layout;
-        $content = ob_get_clean();
-        
+        $buffer = ob_get_clean();
+        $cache = str_replace('{{content}}', $content, $buffer);
+
+        $what = [];
+        $to = [];
+        foreach ($placeholders as $ph => $value) {
+            $what[] = $ph;
+            $to[] = $value;
+        }
+
+        $buffer = str_replace($what, $to, $buffer);
+
+        return $buffer;
     }
 
     public function renderView($view)
