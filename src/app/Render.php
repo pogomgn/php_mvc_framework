@@ -11,7 +11,7 @@ class Render
         ob_start();
         include_once $layout;
         $buffer = ob_get_clean();
-        $cache = str_replace('{{content}}', $content, $buffer);
+        $buffer = str_replace('{{content}}', $content, $buffer);
 
         $what = [];
         $to = [];
