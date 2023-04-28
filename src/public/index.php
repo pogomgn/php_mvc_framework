@@ -17,9 +17,8 @@ $dotenv->load();
 
 $router = new Router(Request::getInstance(), new Render());
 
-$router->get('/', 'home');
-$router->get('/user', fn() => 'hahaha');
-$router->get('/contact', 'contact');
+$router->get('/', ['main', ['content' => 'home'], ['title' => 'Home title']]);
+$router->get('/contact', ['main', ['content' => 'contact'], ['title' => 'Contact title']]);
 
 $app = new Application($router, Request::getInstance());
 

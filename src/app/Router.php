@@ -53,8 +53,11 @@ class Router
         }
 
         if (is_array($action)) {
-            [$class, $method] = $action;
+            [$layout, $includes, $placeholders] = $action;
 
+            return $this->render->renderLayout($layout, $includes ?: [], $placeholders ?: []);
+
+            /**
             if (!class_exists($class)) {
                 throw new ClassNotFoundException();
             }
@@ -64,6 +67,7 @@ class Router
             }
 
             return call_user_func_array([$class, $method], []);
+            */
         }
 
         throw new UnexpectedBehaviorException();
