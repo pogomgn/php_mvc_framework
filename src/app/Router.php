@@ -52,6 +52,10 @@ class Router
             return;
         }
 
+        if (is_array($action) && $method === 'post') {
+            
+        }
+
         if (is_array($action)) {
             [$layout, $includes, $placeholders] = $action;
 

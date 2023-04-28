@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Exception\RouteNotFoundException;
+
 class Application
 {
     public function __construct(
@@ -13,7 +15,13 @@ class Application
 
     public function run()
     {
-        echo $this->router->resolve();
+        try {
+            echo $this->router->resolve();
+        } catch (RouteNotFoundException $e) {
+            http_response_code($e->getCode());
+            echo $e->getMessage();
+            /** TODO: 404.php? */
+        }
         die;
     }
 }
