@@ -1,6 +1,7 @@
 <?php
 
 use App\Application;
+use App\Layout;
 use App\Render;
 use App\Request;
 use App\Router;
@@ -17,8 +18,9 @@ $dotenv->load();
 
 $router = new Router(Request::getInstance(), new Render());
 
-$router->get('/', ['main', ['content' => 'home'], ['title' => 'Home title']]);
-$router->get('/contact', ['main', ['content' => 'contact'], ['title' => 'Contact title']]);
+$router->get('/',  new Layout('main', ['content' => 'home'], ['title' => 'Home title']));
+$router->get('/contact',  new Layout('main', ['content' => 'contact'], ['title' => 'Contact title']));
+$router->get('/feedback', new Layout('main', ['content' => 'feedback'], ['title' => 'Feedback title']));
 
 $app = new Application($router, Request::getInstance());
 

@@ -19,18 +19,23 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/contact">Contacts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/feedback">Contacts</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+<div class="container">
 
 {{content}}
 
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </body>
 </html>
