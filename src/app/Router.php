@@ -44,10 +44,6 @@ class Router
             throw new RouteNotFoundException();
         }
 
-        if (is_callable($action)) {
-            return call_user_func($action);
-        }
-
         if (is_string($action)) {
             $this->render->renderView($action);
             return;
@@ -60,6 +56,10 @@ class Router
         if (is_array($action)) {
             [$class, $method] = $action;
 
+            if (is_object($class)) {
+                return $class->$method();
+            }
+
             if (!class_exists($class)) {
                 throw new ClassNotFoundException();
             }
@@ -69,6 +69,10 @@ class Router
             }
 
             return call_user_func_array([$class, $method], []);
+        }
+
+        if (is_callable($action)) {
+            return call_user_func($action);
         }
 
         throw new UnexpectedBehaviorException();

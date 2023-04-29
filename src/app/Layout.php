@@ -20,6 +20,11 @@ class Layout extends Render implements Renderable
     {
     }
 
+    public function addParams(array $params = [])
+    {
+        $this->placeholders = array_merge($this->placeholders ?: [], $params);
+    }
+
     public function render(): string
     {
         $layout = APP_DIR . '/Views/Layouts/' . $this->layoutPath . '.php';
@@ -29,16 +34,28 @@ class Layout extends Render implements Renderable
 
         $what = [];
         $to = [];
-        foreach ($this->placeholders as $ph => $value) {
-            $what[] = '{{' . $ph . '}}';
-            $to[] = $value;
-        }
         foreach ($this->includes as $ph => $view) {
             $what[] = '{{' . $ph . '}}';
             $to[] = $this->includeView($view);
         }
-
         $buffer = (string)str_replace($what, $to, $buffer);
+
+        $what = [];
+        $to = [];
+        foreach ($this->placeholders as $ph => $value) {
+            $what[] = '{{' . $ph . '}}';
+            $to[] = $value;
+        }
+        $buffer = (string)str_replace($what, $to, $buffer);
+
+        $buffer = $this->clearPlaceholders($buffer);
+
+        return $buffer;
+    }
+
+    protected function clearPlaceholders(string $buffer)
+    {
+        $buffer = preg_replace('/{{\w+}}/', '', $buffer);
 
         return $buffer;
     }

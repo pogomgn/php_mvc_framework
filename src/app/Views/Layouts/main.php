@@ -25,7 +25,7 @@
                     <a class="nav-link" href="/contact">Contacts</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/feedback">Contacts</a>
+                    <a class="nav-link" href="/feedback">Feedback</a>
                 </li>
             </ul>
         </div>

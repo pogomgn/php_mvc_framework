@@ -1,6 +1,7 @@
 <?php
 
 use App\Application;
+use App\Controllers\FeedbackController;
 use App\Layout;
 use App\Render;
 use App\Request;
@@ -21,6 +22,10 @@ $router = new Router(Request::getInstance(), new Render());
 $router->get('/',  new Layout('main', ['content' => 'home'], ['title' => 'Home title']));
 $router->get('/contact',  new Layout('main', ['content' => 'contact'], ['title' => 'Contact title']));
 $router->get('/feedback', new Layout('main', ['content' => 'feedback'], ['title' => 'Feedback title']));
+$router->post('/feedback', [
+    (new FeedbackController(new Layout('main', ['content' => 'feedback'], ['title' => 'Feedback title']))),
+    'postFeedback',
+]);
 
 $app = new Application($router, Request::getInstance());
 

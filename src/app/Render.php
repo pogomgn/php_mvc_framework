@@ -6,29 +6,6 @@ use App\Exception\ViewNotFoundException;
 
 class Render
 {
-    public function renderLayout(string $layout, array $includes = [], array $placeholders = []): string
-    {
-        $layout = APP_DIR . '/Views/Layouts/' . $layout . '.php';
-        ob_start();
-        include_once $layout;
-        $buffer = ob_get_clean();
-
-        $what = [];
-        $to = [];
-        foreach ($placeholders as $ph => $value) {
-            $what[] = '{{' . $ph . '}}';
-            $to[] = $value;
-        }
-        foreach ($includes as $ph => $view) {
-            $what[] = '{{' . $ph . '}}';
-            $to[] = $this->includeView($view);
-        }
-
-        $buffer = (string)str_replace($what, $to, $buffer);
-
-        return $buffer;
-    }
-
     protected function includeView(string $path): string
     {
         $path = APP_DIR . '/Views/' . $path . '.php';

@@ -2,10 +2,14 @@
 
 namespace App;
 
+use const FILTER_SANITIZE_SPECIAL_CHARS;
+use const INPUT_GET;
+
 class Request
 {
     protected string $path = '';
-    protected array $params = [];
+    protected array $get = [];
+    protected array $post = [];
     protected string $method = '';
 
     protected static ?Request $instance = null;
@@ -18,7 +22,17 @@ class Request
         [$path, $params] = explode('?', $uri);
 
         $this->path = $path;
-        $this->params = explode('&', $params ?: '');
+
+        foreach ($_GET as $key => $value) {
+            $this->get[$key] = $value;
+//            $this->get[$key] = filter_input(INPUT_GET, $value, FILTER_SANITIZE_SPECIAL_CHARS);
+        }
+        if ($this->method === 'post') {
+            foreach ($_POST as $key => $value) {
+                $this->post[$key] = $value;
+//                $this->post[$key] = filter_input(INPUT_POST, $value, FILTER_SANITIZE_SPECIAL_CHARS);
+            }
+        }
     }
 
     public static function getInstance(): Request
@@ -34,9 +48,14 @@ class Request
         return $this->path;
     }
 
-    public function getParams(): array
+    public function getPostParams(): array
     {
-        return $this->params;
+        return $this->post;
+    }
+
+    public function getGetParams(): array
+    {
+        return $this->get;
     }
 
     public function getMethod(): string
