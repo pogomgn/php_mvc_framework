@@ -16,6 +16,8 @@ class Layout extends Render implements Renderable
         protected string $layoutPath,
         protected array $includes,
         protected array $placeholders,
+        protected array $css = [],
+        protected array $js = [],
     )
     {
     }
@@ -47,6 +49,15 @@ class Layout extends Render implements Renderable
             $to[] = $value;
         }
         $buffer = (string)str_replace($what, $to, $buffer);
+
+        $fileIncludes = '';
+        foreach ($this->css as $ph => $value) {
+            $fileIncludes .= "<link href=\"/assets/css/$value\" rel=\"stylesheet\">\r\n";
+        }
+        foreach ($this->js as $ph => $value) {
+            $fileIncludes .= $value . "\r\n";
+        }
+        $buffer = (string)str_replace('{{head_files}}', $fileIncludes, $buffer);
 
         $buffer = $this->clearPlaceholders($buffer);
 

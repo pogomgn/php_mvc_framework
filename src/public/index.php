@@ -1,6 +1,7 @@
 <?php
 
 use App\Application;
+use App\Controllers\AuthController;
 use App\Controllers\FeedbackController;
 use App\Layout;
 use App\Render;
@@ -23,8 +24,19 @@ $router->get('/',  new Layout('main', ['content' => 'home'], ['title' => 'Home t
 $router->get('/contact',  new Layout('main', ['content' => 'contact'], ['title' => 'Contact title']));
 $router->get('/feedback', new Layout('main', ['content' => 'feedback'], ['title' => 'Feedback title']));
 $router->post('/feedback', [
-    (new FeedbackController(new Layout('main', ['content' => 'feedback'], ['title' => 'Feedback title']))),
+    new FeedbackController(new Layout('main', ['content' => 'feedback'], ['title' => 'Feedback title'])),
     'postFeedback',
+]);
+
+$router->get('/login', new Layout('main', ['content' => 'login'], ['title' => 'Login'], css: ['sign-in.css']));
+$router->post('/login', [
+    new AuthController(new Layout('main', ['content' => 'login'], ['title' => 'Login'], css: ['sign-in.css'])),
+    'login',
+]);
+$router->get('/register', new Layout('main', ['content' => 'register'], ['title' => 'Register'], css: ['sign-in.css']));
+$router->post('/register', [
+    new AuthController(new Layout('main', ['content' => 'register'], ['title' => 'Register'], css: ['sign-in.css'])),
+    'register',
 ]);
 
 $app = new Application($router, Request::getInstance());

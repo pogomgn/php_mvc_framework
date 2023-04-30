@@ -9,6 +9,7 @@ use App\Request;
 abstract class Controller
 {
     protected Request $request;
+    protected array $errors;
 
     public function __construct(
         protected Layout $layout
